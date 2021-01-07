@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PresentationHost.Models;
 using TK.Core.ApplicationService;
 using TK.Core.Contracts.Repository;
 using TK.Core.Contracts.Service;
+using TK.Core.Entites;
 using TK.Infrastruture.Data;
 using TK.Infrastruture.Sql;
 
@@ -36,6 +38,10 @@ namespace PresentationHost
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProdctService, ProductService>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<Cart>(sp => SessionCart.GetCart(sp));
+
+            services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -53,7 +59,7 @@ namespace PresentationHost
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
