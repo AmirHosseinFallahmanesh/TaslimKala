@@ -10,7 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PresentationHost.Models;
+using PresentationHost.PaymentSystems;
 using TK.Core.ApplicationService;
+using TK.Core.Contracts.Pay;
 using TK.Core.Contracts.Repository;
 using TK.Core.Contracts.Service;
 using TK.Core.Entites;
@@ -35,11 +37,15 @@ namespace PresentationHost
             {
                 option.UseSqlServer(Configuration.GetConnectionString("ShopCS"));
             });
+            services.AddTransient<IPayment, PayIr>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProdctService, ProductService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<Cart>(sp => SessionCart.GetCart(sp));
+
+            services.AddScoped<IOrderRepository, OrederRepository>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -48,6 +54,7 @@ namespace PresentationHost
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

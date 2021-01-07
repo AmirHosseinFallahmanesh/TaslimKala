@@ -13,6 +13,5 @@ namespace TK.Core.Contracts.Service
         List<Product> GetChippestProduct();
         List<Product> GetNewestProduct();
 
-
     }
 }

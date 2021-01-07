@@ -15,5 +15,6 @@ namespace TK.Core.Contracts.Repository
         List<Product> GetNewstProduct();
 
     }
-    }
+
+}
 
