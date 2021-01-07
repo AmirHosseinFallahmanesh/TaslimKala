@@ -16,4 +16,4 @@ namespace TK.Core.Contracts.Repository
 
     }
     }
-}
+

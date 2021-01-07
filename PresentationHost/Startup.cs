@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TK.Core.ApplicationService;
+using TK.Core.Contracts.Repository;
+using TK.Core.Contracts.Service;
+using TK.Infrastruture.Data;
 using TK.Infrastruture.Sql;
 
 namespace PresentationHost
@@ -29,7 +33,8 @@ namespace PresentationHost
             {
                 option.UseSqlServer(Configuration.GetConnectionString("ShopCS"));
             });
-
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProdctService, ProductService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

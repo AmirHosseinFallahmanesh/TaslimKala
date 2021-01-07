@@ -1,5 +1,3 @@
-using System;
-
 namespace PresentationHost.Models
 {
     public class ErrorViewModel
